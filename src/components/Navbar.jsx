@@ -21,11 +21,6 @@ const Navbar = ({ isOpen, setIsOpen }) => {
             />
           </svg>
         </button>
-        <input
-          className="mx-4 w-full border rounded-md px-4 py-2"
-          type="text"
-          placeholder="Search"
-        />
       </div>
       <div className="flex items-center pr-4">
         <div className="dropdown dropdown-end">

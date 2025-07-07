@@ -1,6 +1,6 @@
 const Navbar = ({ isOpen, setIsOpen }) => {
   return (
-    <nav className="flex items-center justify-between h-16 bg-white border-b border-gray-200">
+    <nav className="sticky top-0 z-50 flex items-center justify-between min-h-19 bg-gray-900 border-b border-gray-200">
       <div className="flex items-center px-4">
         <button
           onClick={() => setIsOpen(!isOpen)}

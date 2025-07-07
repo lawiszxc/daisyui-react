@@ -18,9 +18,9 @@ const Sidebar = () => {
           <a
             href="#"
             onClick={() => setActiveMenu("baby-sitters")}
-            className={`flex items-center px-4 py-2 hover:bg-gray-700 ${
+            className={`flex items-center px-4 py-2 hover:bg-gray-900 ${
               activeMenu === "baby-sitters"
-                ? "bg-gray-700 text-white font-semibold"
+                ? "bg-gray-900 text-white font-semibold"
                 : "text-gray-100"
             }`}
           >

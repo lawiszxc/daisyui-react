@@ -1,6 +1,11 @@
-const Sidebar = () => {
+const Sidebar = ({ isOpen }) => {
   return (
-    <aside className="hidden peer-checked:flex md:flex flex-col w-64 bg-gray-800 ">
+    <aside
+      className={`${
+        isOpen ? "block" : "hidden"
+      } sm:flex md:flex flex-col w-64 bg-gray-800`}
+    >
+      {" "}
       <div className="flex items-center justify-center h-24 bg-gray-900 p-4">
         <span className="text-white font-bold uppercase flex">
           <img className="h-19" src="/logo.png" alt="OCCLogo" />

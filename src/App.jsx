@@ -7,13 +7,13 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen bg-gray-300">
       {!isOpen && <Sidebar setIsOpen={setIsOpen} />}
 
       <div className="flex flex-col flex-1 overflow-y-auto">
         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-        <main className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 p-4">
+        <main className="m-4">
           <Outlet />
         </main>
       </div>

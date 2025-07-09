@@ -3,7 +3,9 @@ import MyDataTable from "../components/MyDataTable";
 const CRUDFunction = () => {
   return (
     <>
-      <MyDataTable />
+      <div className="h-min">
+        <MyDataTable />
+      </div>
     </>
   );
 };

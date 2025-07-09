@@ -1,11 +1,13 @@
 import { Routes, Route } from "react-router-dom";
-import CRUDFunction from "../pages/CRUDFunction";
 import App from "../App";
+import CRUDFunction from "../pages/CRUDFunction";
+import Dashboard from "../pages/Dashboard";
 
 const AppRouter = () => {
   return (
     <Routes>
-      <Route path="/" element={<App />}>
+      <Route element={<App />}>
+        <Route path="/" element={<Dashboard />} />
         <Route path="/crud-function" element={<CRUDFunction />} />
       </Route>
     </Routes>

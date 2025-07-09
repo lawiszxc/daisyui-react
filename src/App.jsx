@@ -10,10 +10,10 @@ const App = () => {
     <div className="flex h-screen bg-gray-300">
       {!isOpen && <Sidebar setIsOpen={setIsOpen} />}
 
-      <div className="flex flex-col flex-1 overflow-y-auto">
+      <div className="flex flex-1 flex-col overflow-y-auto">
         <Navbar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-        <main className="m-4">
+        <main className="flex-1 overflow-auto p-4 bg-gray-300">
           <Outlet />
         </main>
       </div>

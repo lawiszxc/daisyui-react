@@ -14,7 +14,7 @@ const Sidebar = () => {
       <div className="flex flex-col flex-1 overflow-y-auto">
         <div className="flex-1 px-2 py-4 bg-gray-800">
           <div className="flex text-gray-100 border-b border-gray-600 pb-2">
-            <p className="text-[11px]">User Manual</p>
+            <p className="text-[11px]">Administrator Controls</p>
           </div>
           <NavLink
             to="/"

@@ -97,7 +97,10 @@ const MyDataTable = () => {
         pagination
         actions={
           <div className="flex gap-2 mr-3">
-            <button className="bg-primary hover:bg-violet-900 text-white px-4 py-1 rounded text-sm cursor-pointer">
+            <button
+              title="Add New User"
+              className="bg-primary hover:bg-violet-900 text-white px-4 py-1 rounded text-sm cursor-pointer"
+            >
               <IoPersonAdd size={20} />
             </button>
           </div>

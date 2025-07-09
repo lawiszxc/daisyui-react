@@ -1,83 +1,37 @@
 import DataTable from "react-data-table-component";
 import { IoPersonAdd } from "react-icons/io5";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
-const data = [
-  {
-    id: 1,
-    name: "Mark Lawis",
-    email: "mark@example.com",
-  },
-  {
-    id: 2,
-    name: "Anna Cruz",
-    email: "anna@example.com",
-  },
-  {
-    id: 3,
-    name: "Rosalinda L. Gallogo",
-    email: "gallogo@example.com",
-  },
-  {
-    id: 4,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 5,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 6,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 7,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 8,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 9,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 10,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 11,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 12,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 13,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-  {
-    id: 14,
-    name: "Ryanle G. Lawis",
-    email: "ryanle@example.com",
-  },
-];
+const fetchUsers = async () => {
+  const response = await axios.get("http://127.0.0.1:8000/api/get-users");
+  return response.data;
+};
 
 const columns = [
   {
-    name: "Name",
-    selector: (row) => row.name,
+    name: "Full Name",
+    selector: (row) => row.full_name,
+    sortable: true,
+  },
+  {
+    name: "Phone #",
+    selector: (row) => row.phone_number,
+    sortable: true,
+  },
+  {
+    name: "Sex",
+    selector: (row) => row.sex,
+    sortable: true,
+  },
+  {
+    name: "Civil Status",
+    selector: (row) => row.civil_status,
+    sortable: true,
+  },
+  {
+    name: "Present Address",
+    selector: (row) => row.present_address,
     sortable: true,
   },
   {
@@ -88,6 +42,15 @@ const columns = [
 ];
 
 const MyDataTable = () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+  });
+
+  if (isLoading) return <div className="p-4">Loading...</div>;
+  if (error)
+    return <div className="p-4 text-red-600">Error fetching users</div>;
+
   return (
     <>
       <DataTable
@@ -95,6 +58,8 @@ const MyDataTable = () => {
         columns={columns}
         data={data}
         pagination
+        highlightOnHover
+        persistTableHead
         actions={
           <div className="flex gap-2 mr-3">
             <button

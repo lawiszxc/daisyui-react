@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 const Sidebar = () => {
   return (
     <aside className="md:flex lg:flex flex-col w-64 bg-gray-800 border-r border-solid border-gray-800">
-      <div className="flex items-center justify-center h-24 bg-gray-900 p-4">
+      <div className="flex items-center justify-center h-24 bg-gray-900 p-2">
         <span className="text-white font-bold uppercase flex">
           <img className="h-19" src="/logo.png" alt="OCCLogo" />
           <span className="text-center text-gray-100 content-center">

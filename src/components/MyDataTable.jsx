@@ -1,7 +1,8 @@
 import DataTable from "react-data-table-component";
-import { IoPersonAdd } from "react-icons/io5";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import AddUserModal from "./modals/AddUserModal";
+import { IoPersonAdd } from "react-icons/io5";
 
 const fetchUsers = async () => {
   const response = await axios.get("http://127.0.0.1:8000/api/get-users");
@@ -62,12 +63,7 @@ const MyDataTable = () => {
         persistTableHead
         actions={
           <div className="flex gap-2 mr-3">
-            <button
-              title="Add New User"
-              className="bg-primary hover:bg-violet-900 text-white px-4 py-1 rounded text-sm cursor-pointer"
-            >
-              <IoPersonAdd size={20} />
-            </button>
+            <AddUserModal />
           </div>
         }
       />

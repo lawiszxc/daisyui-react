@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import axios from "../axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import DataTable from "react-data-table-component";
 
@@ -7,7 +7,7 @@ import AddUserModal from "./modals/AddUserModal";
 import EditUserModal from "./modals/EditUserModal";
 
 const fetchUsers = async () => {
-  const res = await axios.get("http://127.0.0.1:8000/api/get-users");
+  const res = await axios.get("/get-users");
   return res.data;
 };
 

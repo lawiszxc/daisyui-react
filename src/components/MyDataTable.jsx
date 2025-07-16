@@ -29,8 +29,7 @@ const MyDataTable = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) =>
-      axios.delete(`http://127.0.0.1:8000/api/delete-users/${id}`),
+    mutationFn: (id) => axios.delete(`/delete-users/${id}`),
     onSuccess: () => queryClient.invalidateQueries(["users"]),
   });
 

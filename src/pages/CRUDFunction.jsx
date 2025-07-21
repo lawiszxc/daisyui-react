@@ -1,10 +1,10 @@
-import MyDataTable from "../components/MyDataTable";
+import CrudFunction from "../components/CrudFunction";
 
 const CRUDFunction = () => {
   return (
     <>
       <div className="h-min">
-        <MyDataTable />
+        <CrudFunction />
       </div>
     </>
   );

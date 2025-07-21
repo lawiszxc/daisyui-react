@@ -1,23 +1,19 @@
 import { useState } from "react";
 import axios from "../axios";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import DataTable from "react-data-table-component";
+import * as XLSX from "xlsx";
 
 import AddUserModal from "./modals/AddUserModal";
 import EditUserModal from "./modals/EditUserModal";
 
-const fetchUsers = async () => {
-  const res = await axios.get("/get-users");
-  return res.data;
-};
-
-const MyDataTable = () => {
-  const queryClient = useQueryClient();
+const CRUDFunction = () => {
   const [editUser, setEditUser] = useState(null);
-
   const [search, setSearch] = useState("");
   const [filterSex, setFilterSex] = useState("");
   const [filterCivilStatus, setfilterCivilStatus] = useState("");
+
+  const queryClient = useQueryClient();
 
   const {
     data: users = [],
@@ -25,7 +21,10 @@ const MyDataTable = () => {
     error,
   } = useQuery({
     queryKey: ["users"],
-    queryFn: fetchUsers,
+    queryFn: async () => {
+      const res = await axios.get("/get-users");
+      return res.data;
+    },
   });
 
   const deleteMutation = useMutation({
@@ -45,6 +44,17 @@ const MyDataTable = () => {
         ? user.civil_status.toLowerCase() === filterCivilStatus.toLowerCase()
         : true
     );
+
+  const customStyles = {
+    cells: {
+      style: {
+        padding: "10px",
+        margin: "2px",
+        maxHeight: "500px",
+      },
+    },
+  };
+
   const columns = [
     {
       name: "Actions",
@@ -62,35 +72,80 @@ const MyDataTable = () => {
           >
             🗑️
           </button>
+          <button
+            className="btn btn-primary hover:bg-violet-900"
+            onClick={() => exportToExcel(row)}
+          >
+            Download
+          </button>
         </div>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
       button: true,
-      width: "130px",
+      width: "200px",
     },
-    { name: "Full Name", selector: (row) => row.full_name, sortable: true },
-    { name: "Phone #", selector: (row) => row.phone_number, sortable: true },
-    { name: "Sex", selector: (row) => row.sex, sortable: true },
+    {
+      name: "Full Name",
+      selector: (row) => row.full_name,
+      sortable: true,
+      wrap: true,
+    },
+    {
+      name: "Phone #",
+      selector: (row) => row.phone_number,
+      sortable: true,
+      wrap: true,
+    },
+    {
+      name: "Sex",
+      selector: (row) => row.sex,
+      sortable: true,
+      wrap: true,
+    },
     {
       name: "Civil Status",
       selector: (row) => row.civil_status,
       sortable: true,
+      wrap: true,
     },
     {
       name: "Present Address",
       selector: (row) => row.present_address,
       sortable: true,
+      wrap: true,
     },
-    { name: "Email", selector: (row) => row.email, sortable: true },
+    {
+      name: "Email",
+      selector: (row) => row.email,
+      sortable: true,
+      wrap: true,
+    },
   ];
+
+  const exportToExcel = (user) => {
+    const ws = XLSX.utils.aoa_to_sheet([]);
+
+    ws["B10"] = { v: user.full_name };
+    ws["B12"] = { v: user.phone_number };
+    ws["B14"] = { v: user.sex };
+    ws["B16"] = { v: user.civil_status };
+    ws["B18"] = { v: user.present_address };
+    ws["B20"] = { v: user.email };
+
+    ws["!ref"] = "A1:C30";
+
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "User Info");
+    XLSX.writeFile(wb, `user_${user.full_name}.xlsx`);
+  };
 
   if (isLoading) return <div className="p-4">Loading...</div>;
   if (error)
     return <div className="p-4 text-red-600">Error fetching users</div>;
 
   return (
-    <div className="p-4">
+    <div className="p-4 hidden lg:block">
       <div className="flex justify-between items-center p-2 rounded bg-white mb-4">
         <h2 className="text-xl font-bold">CRUD Function</h2>
       </div>
@@ -125,11 +180,11 @@ const MyDataTable = () => {
               </select>
             </div>
           </div>
-          <div className="flex gap-1">
+          <div className="flex gap-1 items-center">
             <input
               type="text"
               placeholder="Search..."
-              className="border rounded pl-2 border-gray-500 focus:outline-none focus:ring-2"
+              className="flex h-8 w-xs border rounded pl-2 border-gray-500 focus:outline-none focus:ring-2"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -137,14 +192,22 @@ const MyDataTable = () => {
           </div>
         </div>
         <DataTable
+          style={{ overflowX: "auto" }}
           columns={columns}
           data={filteredUsers}
           pagination
           highlightOnHover
           dense
           persistTableHead
+          fixedHeader
+          fixedHeaderScrollHeight="400px"
+          customStyles={customStyles}
         />
       </div>
+
+      {/* {drivers.map((user) => (
+        <h1 key={user.id}>{user.full_name}</h1>
+      ))} */}
 
       {/* Edit Modal */}
       {editUser && (
@@ -157,4 +220,4 @@ const MyDataTable = () => {
   );
 };
 
-export default MyDataTable;
+export default CRUDFunction;

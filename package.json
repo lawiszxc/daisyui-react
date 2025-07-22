@@ -19,6 +19,7 @@
     "@tanstack/react-table": "^8.21.3",
     "axios": "^1.10.0",
     "file-saver": "^2.0.5",
+    "js-cookie": "^3.0.5",
     "json2csv": "^6.0.0-alpha.2",
     "material-react-table": "^3.2.1",
     "react": "^19.1.0",

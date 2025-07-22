@@ -1,6 +1,52 @@
-import { Link } from "react-router-dom";
+import axios from "../axios";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Register = () => {
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async () => {
+    try {
+      // Register the user
+      const registerResponse = await axios.post("/register", form, {
+        withCredentials: true,
+      });
+
+      console.log("Registration successful", registerResponse.data);
+
+      // Optional: immediately login after registration
+      const response = await axios.post("/login", {
+        email: form.email,
+        password: form.password,
+      });
+
+      console.log("Login successful", response.data);
+      Cookies.set("token", response.data.token, { expires: 1 });
+
+      // Redirect to dashboard
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(
+        "Registration or login failed:",
+        error.response?.data || error.message
+      );
+      alert("Error: " + (error.response?.data?.message || error.message));
+    }
+  };
+
   return (
     <>
       <div className="flex items-center justify-center h-screen rounded-9xl">
@@ -21,6 +67,8 @@ const Register = () => {
                   name="email"
                   type="text"
                   placeholder="Email or Phone Number"
+                  value={form.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="m-2">
@@ -33,10 +81,15 @@ const Register = () => {
                   name="password"
                   type="password"
                   placeholder="Password"
+                  value={form.password}
+                  onChange={handleChange}
                 />
               </div>
-              <div className="m-2">
-                <button className="btn btn-success w-full hover:bg-green-600">
+              <div className="m-3">
+                <button
+                  onClick={() => handleSubmit()}
+                  className="btn btn-success w-full hover:bg-green-600"
+                >
                   Register
                 </button>
                 <p className="justify-center flex mt-2">

@@ -18,11 +18,11 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
       const response = await axios.post("/login", form);
-
-      console.log("Login success:", response.data);
 
       if (response.data.status === "success") {
         Cookies.set("token", response.data.token, { expires: 1 });
@@ -33,15 +33,11 @@ const Login = () => {
       }
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
-      alert(
-        "Login failed: " +
-          (error.response?.data?.error || "Something went wrong")
-      );
     }
   };
 
   return (
-    <div className="flex  items-center justify-center h-screen rounded-9xl">
+    <div className="flex items-center justify-center h-screen rounded-9xl">
       <div className="flex w-full h-full bg-gray-800 md:w-1/2 md:h-120 lg:rounded-4xl p-1 divide-none divide-x-2">
         <div className="flex-1 hidden lg:flex bg-white items-center justify-center text-white m-1 rounded-4xl rounded-r-none">
           <div className="w-full flex justify-center">
@@ -57,7 +53,7 @@ const Login = () => {
             <h1>Welcome to Login Page</h1>
           </div>
 
-          <form action="">
+          <form onSubmit={handleSubmit}>
             <div className="flex flex-col">
               <div className="m-2">
                 <div className="text-sm ml-1" htmlFor="email">
@@ -71,6 +67,7 @@ const Login = () => {
                   placeholder="Email or Phone Number"
                   value={form.email}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="m-2">
@@ -85,6 +82,7 @@ const Login = () => {
                   placeholder="Password"
                   value={form.password}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <div className="m-3">

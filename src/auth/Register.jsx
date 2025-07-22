@@ -18,7 +18,8 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       // Register the user
       const registerResponse = await axios.post("/register", form, {
@@ -43,67 +44,76 @@ const Register = () => {
         "Registration or login failed:",
         error.response?.data || error.message
       );
-      alert("Error: " + (error.response?.data?.message || error.message));
     }
   };
 
   return (
     <>
       <div className="flex items-center justify-center h-screen rounded-9xl">
-        <div className="flex bg-gray-800 w-1/2 h-120 rounded-4xl p-1 divide-none divide-x-2">
-          <div className="flex-1 flex flex-col text-white mt-20">
+        <div className="flex w-full h-full bg-gray-800 md:w-1/2 md:h-120 lg:rounded-4xl p-1 divide-none divide-x-2">
+          <div className="flex flex-1 flex-col text-white justify-center">
             <div className="flex justify-center">
               <h1>Welcome to Register Page</h1>
             </div>
-
-            <div className="flex flex-col">
-              <div className="m-2">
-                <div className="text-sm ml-1" htmlFor="email">
-                  Email
+            <form onSubmit={handleSubmit}>
+              <div className="flex flex-col">
+                <div className="m-2">
+                  <div className="text-sm ml-1" htmlFor="email">
+                    Email
+                  </div>
+                  <input
+                    className="input text-gray-700 w-full"
+                    id="email"
+                    name="email"
+                    type="text"
+                    placeholder="Email or Phone Number"
+                    value={form.email}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-                <input
-                  className="input text-gray-700 w-full"
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder="Email or Phone Number"
-                  value={form.email}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="m-2">
-                <div className="text-sm ml-1" htmlFor="password">
-                  Password
+                <div className="m-2">
+                  <div className="text-sm ml-1" htmlFor="password">
+                    Password
+                  </div>
+                  <input
+                    className="input text-gray-700 w-full"
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    value={form.password}
+                    onChange={handleChange}
+                    required
+                  />
                 </div>
-                <input
-                  className="input text-gray-700 w-full"
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  value={form.password}
-                  onChange={handleChange}
-                />
+                <div className="m-3">
+                  <button
+                    onClick={() => handleSubmit()}
+                    className="btn btn-success w-full hover:bg-green-600"
+                  >
+                    Register
+                  </button>
+                  <p className="justify-center flex mt-2">
+                    or &nbsp;
+                    <Link
+                      to={"/login"}
+                      className="text-gray-400 cursor-pointer"
+                    >
+                      already have an account!
+                    </Link>
+                  </p>
+                </div>
               </div>
-              <div className="m-3">
-                <button
-                  onClick={() => handleSubmit()}
-                  className="btn btn-success w-full hover:bg-green-600"
-                >
-                  Register
-                </button>
-                <p className="justify-center flex mt-2">
-                  or &nbsp;
-                  <Link to={"/login"} className="text-gray-400 cursor-pointer">
-                    already have an account!
-                  </Link>
-                </p>
-              </div>
-            </div>
+            </form>
           </div>
           <div className="flex-1 hidden lg:flex bg-white items-center justify-center text-white m-1 rounded-4xl rounded-l-none">
             <div className="w-full flex justify-center">
-              <img src="/occLogo.png" alt="occLogo" />
+              <img
+                src="/occLogo.png"
+                alt="occLogo"
+                className="w-[400px] h-auto"
+              />
             </div>
           </div>
         </div>
